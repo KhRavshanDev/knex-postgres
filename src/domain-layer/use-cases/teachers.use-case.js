@@ -1,16 +1,9 @@
 const TeacherRepository = require("../../data-layer/teachers.repository");
 const Teacher = require("../entities/teacher.entity");
+const { PropertyRequiredError, error } = require("../../utils/error.util");
+const HandlerUseCase = require("./common/handler.use-case");
 
-module.exports = class TeacherUseCase {
-  mapFields = {
-    id: "id",
-    name: "name",
-    work_experience: "work_experience",
-    phone_number: "phone_number",
-    subject_id: "subject_id",
-    is_union_member: "is_union_member",
-  };
-
+module.exports = class TeacherUseCase extends HandlerUseCase {
   async getTeachers() {
     const teacherRepository = new TeacherRepository();
 
@@ -38,14 +31,14 @@ module.exports = class TeacherUseCase {
     const teacherRepository = new TeacherRepository();
 
     if (!data.fields || !Array.isArray(data.fields) || !data.fields.length) {
-      throw "No data to insert";
+      throw new PropertyRequiredError(error.get("NO_PROPERTY"));
     }
 
     const fields = data.fields;
     const isStringChecked = this.checkStringFieldsInsert(fields);
 
     if (!isStringChecked) {
-      throw "Wrong data inputs or fields";
+      throw new PropertyRequiredError(error.get("NO_PROPERTY"));
     }
 
     try {
@@ -74,20 +67,20 @@ module.exports = class TeacherUseCase {
     const teacherRepository = new TeacherRepository();
 
     if (!data.fields || !Array.isArray(data.fields) || !data.fields.length) {
-      throw "No data to update";
+      throw new PropertyRequiredError(error.get("NO_PROPERTY"));
     }
 
-    const elWithId = data.fields.find(el => el.id);
+    const elWithId = data.fields.find((el) => el.id);
 
     if (!elWithId) {
-      throw "No id to update";
+      throw new PropertyRequiredError(error.get("NO_PROPERTY"));
     }
 
     const fields = data.fields;
     const isStringChecked = this.checkStringFields(fields);
 
     if (!isStringChecked) {
-      throw "Bad credentials";
+      throw new PropertyRequiredError(error.get("NO_PROPERTY"));
     }
 
     try {
@@ -101,40 +94,5 @@ module.exports = class TeacherUseCase {
     } catch (error) {
       throw error;
     }
-  }
-
-  checkStringFieldsInsert(fields) {
-    const keys = fields.map((val) => {
-      return Object.entries(val)[0][0];
-    });
-
-    const IS_VALID = true;
-
-    for (let i = 0; i < keys.length; i++) {
-      if (!(keys[i] in this.mapFields)) return !IS_VALID;
-    }
-
-    return IS_VALID;
-  }
-
-  checkStringFields(fields) {
-    const IS_VALID = true;
-    const fieldsNormalized = fields.map(el => Object.entries(el)[0][0]);
-
-    fieldsNormalized.some(([key, _]) => {
-      if (!this.mapFields[key]) {
-        return !IS_VALID;
-      }
-    });
-    return IS_VALID;
-  }
-
-  reduceFields(fields) {
-    return fields.reduce((acc, el) => {
-      const entriesEl = Object.entries(el);
-      acc[entriesEl[0][0]] = entriesEl[0][1];
-
-      return acc;
-    }, {});
   }
 };

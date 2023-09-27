@@ -1,5 +1,6 @@
 const knex = require("../../config/knex.config");
 const TEACHERS_TABLE = "teachers";
+const { DataBaseError, error } = require("../utils/error.util");
 
 module.exports = class TeachersRepository {
   async getTeachers() {
@@ -14,7 +15,8 @@ module.exports = class TeachersRepository {
           "subjects.name as subject_name",
         );
 
-      if (!teachers.length) throw "No data found";
+      if (!teachers.length)
+        throw new DataBaseError(error.get("DATA_BASE_ERROR"));
       return teachers;
     } catch (error) {
       throw error;
@@ -34,7 +36,7 @@ module.exports = class TeachersRepository {
         )
         .where({ "teachers.id": id });
 
-      if (!teacher[0]) throw "No data found";
+      if (!teacher[0]) throw new DataBaseError(error.get("DATA_BASE_ERROR"));
       return teacher[0];
     } catch (error) {
       throw error;
@@ -66,7 +68,7 @@ module.exports = class TeachersRepository {
         })
         .returning("id");
 
-      if (!result[0]) throw `No data found with parameter: ${id}`;
+      if (!result[0]) throw new DataBaseError(error.get("DATA_BASE_ERROR"));
 
       return {
         id: result[0],
@@ -84,7 +86,7 @@ module.exports = class TeachersRepository {
         .returning("*");
 
       if (!result[0].id) {
-        throw "No id found to update";
+        throw new DataBaseError(error.get("DATA_BASE_ERROR"));
       }
 
       const updatedTeacher = await knex(TEACHERS_TABLE)
@@ -99,7 +101,7 @@ module.exports = class TeachersRepository {
         .where({ "teachers.id": result[0].id });
 
       if (!updatedTeacher[0]) {
-        throw "No data found";
+        throw new DataBaseError(error.get("DATA_BASE_ERROR"));
       }
 
       return updatedTeacher[0];
