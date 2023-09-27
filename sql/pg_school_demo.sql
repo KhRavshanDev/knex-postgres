@@ -32,7 +32,7 @@ $$
         THEN
             CREATE TABLE teachers
             (
-                id                  INTEGER PRIMARY KEY,
+                id                  SERIAL PRIMARY KEY,
                 subject_id          INTEGER NOT NULL,
                 name                VARCHAR(50) NOT NULL,
                 is_union_member     BOOLEAN NOT NULL,
@@ -206,7 +206,7 @@ $$
             )
         THEN
             INSERT INTO public.subjects (id, name)
-            VALUES (1, 'Biology'),
+            VALUES (1, 'IT'),
                    (2, 'Chemistry'),
                    (3, 'Computer science'),
                    (4, 'English'),
@@ -226,10 +226,10 @@ $$
              WHERE id = 1
             )
         THEN
-            INSERT INTO public.teachers (id, subject_id, name, is_union_member, work_experience, phone_number)
-            VALUES (1, 1, 'Ivan', true, 3.7, '87516562122'),
-                   (2, 2, 'Sonya', false, 2.5, '87516562222'),
-                   (3, 3, 'Pavel', false, 12, '87516562225');
+            INSERT INTO public.teachers (subject_id, name, is_union_member, work_experience, phone_number)
+            VALUES ( 1, 'Ivan', true, 3.7, '87516562122'),
+                   ( 2, 'Sonya', false, 2.5, '87516562222'),
+                   ( 3, 'Ivana', false, 12, '87516562225');
         END IF;
     END
 $$;

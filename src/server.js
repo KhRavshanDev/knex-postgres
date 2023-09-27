@@ -5,9 +5,9 @@ const express = require("express");
 const app = express();
 const server = http.createServer(app);
 const config = require("../config/express.config");
-// const { routeInit } = require("./presentation-layer/routes");
+const { routeInit } = require("./presentation-layer/routes");
 
-// routeInit(app, express);
+routeInit(app, express);
 
 server.listen(config.PORT, () => {
     console.log(`Server is running on port ${config.PORT}.`);

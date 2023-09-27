@@ -1,4 +1,4 @@
-const teachersRoutesinit = require("./teach ers.routes");
+const teachersRoutesinit = require("./teachers.routes");
 
 const routeInit = (app, express) => {
   app.use(express.urlencoded({ extended: true }));

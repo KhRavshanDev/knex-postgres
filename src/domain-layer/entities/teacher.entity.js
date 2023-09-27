@@ -1,4 +1,6 @@
 module.exports = class Teacher {
+  teacher;
+
   constructor(teacher) {
     this.teacher = {
       id: teacher.id,
@@ -7,8 +9,10 @@ module.exports = class Teacher {
       isUnionMember: teacher.is_union_member,
       teacherName: teacher.teacher_name,
     };
+
     return this.teacher;
   }
+
   get teacher() {
     return this.teacher;
   }
