@@ -10,15 +10,15 @@ exports.getLessons = async (req, res) => {
       const lesson = await lessonsUseCase.getOneLesson(id);
       return res.status(200).send(lesson);
     }
-
-    if (req?.query?.offset && req?.query?.limit) {
-      const lessons = await lessonsUseCase.getLessons(
-        req.query.offset,
-        req.query.limit,
-      );
-      return res.status(200).send(lessons);
-    }
   } catch (error) {
     return res.status(400).send(error);
+  }
+
+  try {
+    const lessonsUseCase = new LessonsUseCase();
+    const lessons = await lessonsUseCase.getLessons();
+    return res.status(200).send(lessons);
+  } catch (error) {
+    throw error;
   }
 };

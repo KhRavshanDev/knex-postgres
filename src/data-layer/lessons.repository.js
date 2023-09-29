@@ -22,13 +22,14 @@ module.exports = class LessonsRepository {
         )
         .where({ "lessons.subjects_students_id": subjects_students_id });
 
-      return lesson;
+      if (!lesson[0]) throw "No id";
+      return lesson[0];
     } catch (error) {
       throw error;
     }
   }
 
-  async getLessons(offset, limit) {
+  async getLessons() {
     try {
       const lessons = await knex(LESSONS_TABLE)
         .innerJoin(
@@ -45,10 +46,7 @@ module.exports = class LessonsRepository {
           "lessons.lessons_start_time",
           "lessons.lessons_end_time",
           "lessons.subjects_students_id",
-        )
-        .limit(limit)
-        .offset(offset);
-
+        );
       return lessons;
     } catch (error) {
       throw error;

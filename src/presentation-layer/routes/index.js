@@ -1,5 +1,6 @@
 const teachersRoutesinit = require("./teachers.routes");
 const lessonsRoutesinit = require("./lessons.routes");
+const studentRoutesinit = require("./students.routes");
 
 const routeInit = (app, express) => {
   app.use(express.urlencoded({ extended: true }));
@@ -12,6 +13,7 @@ const routeInit = (app, express) => {
     next();
   });
 
+  studentRoutesinit(app);
   teachersRoutesinit(app);
   lessonsRoutesinit(app);
 };
