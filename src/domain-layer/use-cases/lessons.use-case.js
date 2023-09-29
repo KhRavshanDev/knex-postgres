@@ -28,4 +28,17 @@ module.exports = class LessonsUseCase {
       throw error;
     }
   }
+
+  async addLesson(subjectStudentsId) {
+    try {
+      const lessonsRepository = new LessonsRepository();
+      const lesson = await lessonsRepository.addLesson({
+        subjects_students_id: subjectStudentsId,
+      });
+      console.log(lesson);
+      return lesson;
+    } catch (error) {
+      throw error;
+    }
+  }
 };

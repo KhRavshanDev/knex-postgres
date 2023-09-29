@@ -22,3 +22,17 @@ exports.getLessons = async (req, res) => {
     throw error;
   }
 };
+
+exports.addLesson = async (req, res) => {
+  try {
+    const lessonsUseCase = new LessonsUseCase();
+    const data = req.body;
+
+    if (data?.subjectStudentsId) {
+      const lesson = await lessonsUseCase.addLesson(data.subjectStudentsId);
+      return res.status(200).send(lesson);
+    }
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};

@@ -1,6 +1,7 @@
 const teachersRoutesinit = require("./teachers.routes");
 const lessonsRoutesinit = require("./lessons.routes");
 const studentRoutesinit = require("./students.routes");
+const paymentRoutesinit = require("./payment.routes");
 
 const routeInit = (app, express) => {
   app.use(express.urlencoded({ extended: true }));
@@ -16,6 +17,7 @@ const routeInit = (app, express) => {
   studentRoutesinit(app);
   teachersRoutesinit(app);
   lessonsRoutesinit(app);
+  paymentRoutesinit(app);
 };
 
 module.exports = {

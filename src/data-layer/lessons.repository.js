@@ -52,4 +52,19 @@ module.exports = class LessonsRepository {
       throw error;
     }
   }
+
+  async addLesson(data) {
+    const trx = await knex.transaction({ isolation: "repeatable read" });
+    try {
+      const lesson = await knex(LESSONS_TABLE)
+        .transacting(trx)
+        .returning("*")
+        .insert(data);
+
+      await trx.commit();
+      return lesson;
+    } catch (error) {
+      throw "Error: " + error;
+    }
+  }
 };
